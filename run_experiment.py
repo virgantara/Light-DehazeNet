@@ -53,7 +53,7 @@ def train(args):
 
 			optimizer.zero_grad()
 			loss.backward()
-			torch.nn.utils.clip_grad_norm(ld_net.parameters(),0.1)
+			torch.nn.utils.clip_grad_norm_(ld_net.parameters(),0.1)
 			optimizer.step()
 
 			if ((iteration+1) % 10) == 0:
