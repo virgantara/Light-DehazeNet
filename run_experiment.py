@@ -31,8 +31,8 @@ def train(args):
 											 args["train_hazy"])		
 	validation_data = image_data_loader.hazy_data_loader(args["train_original"],
 											 args["train_hazy"], mode="val")		
-	training_data_loader = torch.utils.data.DataLoader(training_data, batch_size=8, shuffle=True, num_workers=4, pin_memory=True)
-	validation_data_loader = torch.utils.data.DataLoader(validation_data, batch_size=8, shuffle=True, num_workers=4, pin_memory=True)
+	training_data_loader = torch.utils.data.DataLoader(training_data, batch_size=args.batch_size, shuffle=True, num_workers=4, pin_memory=True)
+	validation_data_loader = torch.utils.data.DataLoader(validation_data, batch_size=args.test_batch_size, shuffle=True, num_workers=4, pin_memory=True)
 
 	criterion = nn.MSELoss().cuda()
 	optimizer = torch.optim.Adam(ld_net.parameters(), lr=float(args["learning_rate"]), weight_decay=0.0001)
@@ -79,6 +79,10 @@ if __name__ == "__main__":
 	ap.add_argument("-th", "--train_hazy", required=True, help="path to hazy training images")
 	ap.add_argument("-to", "--train_original", required=True, help="path to original training images")
 	ap.add_argument("-e", "--epochs", required=True, help="number of epochs for training")
+	ap.add_argument('--batch_size', type=int, default=64, metavar='batch_size',
+                        help='Size of batch)')
+    ap.add_argument('--test_batch_size', type=int, default=32, metavar='batch_size',
+                        help='Size of batch)')
 	ap.add_argument("-lr", "--learning_rate", required=True, help="learning rate for training")
 	
 	args = vars(ap.parse_args())
