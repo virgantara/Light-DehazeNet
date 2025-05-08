@@ -79,8 +79,8 @@ if __name__ == "__main__":
 	ap.add_argument("-th", "--train_hazy", required=True, help="path to hazy training images")
 	ap.add_argument("-to", "--train_original", required=True, help="path to original training images")
 	ap.add_argument("-e", "--epochs", required=True, help="number of epochs for training")
-	ap.add_argument("-bs","--batch_size", type=int, default=64, metavar='batch_size', help='Size of batch)')
-    ap.add_argument("-tbs","--test_batch_size", type=int, default=32, metavar='batch_size', help='Size of batch)')
+	ap.add_argument("-bs","--batch_size", type=int, default=64, metavar='batch_size')
+    ap.add_argument("-tbs","--test_batch_size", type=int, default=32, metavar='batch_size')
 	ap.add_argument("-lr", "--learning_rate", required=True, help="learning rate for training")
 	
 	args = vars(ap.parse_args())
