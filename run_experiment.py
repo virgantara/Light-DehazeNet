@@ -31,8 +31,8 @@ def train(args):
 											 args["train_hazy"])		
 	validation_data = image_data_loader.hazy_data_loader(args["train_original"],
 											 args["train_hazy"], mode="val")		
-	training_data_loader = torch.utils.data.DataLoader(training_data, batch_size=args.batch_size, shuffle=True, num_workers=4, pin_memory=True)
-	validation_data_loader = torch.utils.data.DataLoader(validation_data, batch_size=args.test_batch_size, shuffle=True, num_workers=4, pin_memory=True)
+	training_data_loader = torch.utils.data.DataLoader(training_data, batch_size=args["batch_size"], shuffle=True, num_workers=4, pin_memory=True)
+	validation_data_loader = torch.utils.data.DataLoader(validation_data, batch_size=args["test_batch_size"], shuffle=True, num_workers=4, pin_memory=True)
 
 	criterion = nn.MSELoss().cuda()
 	optimizer = torch.optim.Adam(ld_net.parameters(), lr=float(args["learning_rate"]), weight_decay=0.0001)
