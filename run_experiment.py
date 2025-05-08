@@ -76,13 +76,13 @@ def train(args):
 			torchvision.utils.save_image(torch.cat((hazy_image, dehaze_image, hazefree_image),0), "training_data_captures/" +str(iter_val+1)+".jpg")
 
 			if iter_val == 0:
-		        wandb.log({
-		            "val/example": [
-		                wandb.Image(torch.cat((hazy_image, dehaze_image, hazefree_image), 0),
-		                            caption="Hazy | Dehazed | GT")
-		            ],
-		            "epoch": epoch
-		        })
+				wandb.log({
+				    "val/example": [
+				        wandb.Image(torch.cat((hazy_image, dehaze_image, hazefree_image), 0),
+				                    caption="Hazy | Dehazed | GT")
+				    ],
+				    "epoch": epoch
+				})
 		torch.save(ld_net.state_dict(), "trained_weights/" + "trained_LDNet.pth") 
 
 if __name__ == "__main__":
