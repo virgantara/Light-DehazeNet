@@ -87,8 +87,8 @@ class hazy_data_loader(data.Dataset):
 		hazefree_image = Image.open(hazefree_image_path)
 		hazy_image = Image.open(hazy_image_path)
 
-		hazefree_image = hazefree_image.resize((480,640), Image.ANTIALIAS)
-		hazy_image = hazy_image.resize((480,640), Image.ANTIALIAS)
+		hazefree_image = hazefree_image.resize((480,640), Image.Resampling.LANCZOS)
+		hazy_image = hazy_image.resize((480,640), Image.Resampling.LANCZOS)
 
 		hazefree_image = (np.asarray(hazefree_image)/255.0) 
 		hazy_image = (np.asarray(hazy_image)/255.0) 
