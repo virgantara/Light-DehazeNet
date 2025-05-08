@@ -11,7 +11,7 @@ import image_data_loader
 import lightdehazeNet
 import numpy as np
 from torchvision import transforms
-
+import wandb
 
 def weights_init(m):
     classname = m.__class__.__name__
@@ -23,9 +23,10 @@ def weights_init(m):
 
 
 def train(args):
-
+	wandb.init(project="LightDehazeNet", config=args)
 	ld_net = lightdehazeNet.LightDehaze_Net().cuda()
 	ld_net.apply(weights_init)
+	wandb.watch(ld_net, log="all", log_freq=10)
 
 	training_data = image_data_loader.hazy_data_loader(args["train_original"],
 											 args["train_hazy"])		
@@ -56,6 +57,7 @@ def train(args):
 			optimizer.step()
 
 			if ((iteration+1) % 10) == 0:
+				wandb.log({"train/loss": loss.item(), "epoch": epoch, "iteration": iteration + 1})
 				print("Loss at iteration", iteration+1, ":", loss.item())
 			if ((iteration+1) % 200) == 0:
 				
@@ -64,6 +66,8 @@ def train(args):
 		# Validation Stage
 		for iter_val, (hazefree_image, hazy_image) in enumerate(validation_data_loader):
 
+
+
 			hazefree_image = hazefree_image.cuda()
 			hazy_image = hazy_image.cuda()
 
@@ -71,6 +75,14 @@ def train(args):
 
 			torchvision.utils.save_image(torch.cat((hazy_image, dehaze_image, hazefree_image),0), "training_data_captures/" +str(iter_val+1)+".jpg")
 
+			if iter_val == 0:
+		        wandb.log({
+		            "val/example": [
+		                wandb.Image(torch.cat((hazy_image, dehaze_image, hazefree_image), 0),
+		                            caption="Hazy | Dehazed | GT")
+		            ],
+		            "epoch": epoch
+		        })
 		torch.save(ld_net.state_dict(), "trained_weights/" + "trained_LDNet.pth") 
 
 if __name__ == "__main__":
