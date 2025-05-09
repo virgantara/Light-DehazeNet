@@ -24,7 +24,7 @@ def weights_init(m):
 
 
 def train(args):
-	wandb.init(project="LightDehazeNet", config=args)
+	wandb.init(project="LightDehazeNet", config=args, name=args['exp_name'])
 	ld_net = ldnet.LightDehazeNetLite().cuda()
 	ld_net.apply(weights_init)
 	wandb.watch(ld_net, log="all", log_freq=10)
