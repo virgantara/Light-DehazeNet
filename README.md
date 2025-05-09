@@ -1,4 +1,4 @@
-# Modified version of Light-DehazeNet from (Light-DehazeNet: A Novel Lightweight CNN Architecture for Single Image Dehazing)[https://ieeexplore.ieee.org/abstract/document/9562276]
+# Modified version of Light-DehazeNet from [Light-DehazeNet: A Novel Lightweight CNN Architecture for Single Image Dehazing](https://ieeexplore.ieee.org/abstract/document/9562276)
 
 ## Introduction
 This repo contains the implementation of LD-Net, LD-Net Lite, and Color Attenuation Prior (CAP). 
@@ -83,4 +83,4 @@ python muliple_test_inference.py -td query_hazy_images/outdoor_natural/
 ```
 
 ## Disclamier
-For any details regarding LD-Net, follow its original github repo (here)[https://github.com/hayatkhan8660-maker/Light-DehazeNet]
+For any details regarding LD-Net, follow its original github repo [here](https://github.com/hayatkhan8660-maker/Light-DehazeNet)
