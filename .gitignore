@@ -13,8 +13,7 @@ __pycache__/**
 *.png
 config.ini
 outputs/**
-*.pth
-*.pt
+
 
 # IDE Files
 #-------------------------
