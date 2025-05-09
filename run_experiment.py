@@ -8,7 +8,8 @@ import sys
 import argparse
 import time
 import image_data_loader
-import lightdehazeNet
+# import lightdehazeNet
+import lightdehazeNetLite as ldnet
 import numpy as np
 from torchvision import transforms
 import wandb
@@ -24,7 +25,7 @@ def weights_init(m):
 
 def train(args):
 	wandb.init(project="LightDehazeNet", config=args)
-	ld_net = lightdehazeNet.LightDehaze_Net().cuda()
+	ld_net = ldnet.LightDehazeNetLite().cuda()
 	ld_net.apply(weights_init)
 	wandb.watch(ld_net, log="all", log_freq=10)
 
@@ -93,6 +94,7 @@ if __name__ == "__main__":
 	ap.add_argument("-e", "--epochs", required=True, help="number of epochs for training")
 	ap.add_argument("-bs","--batch_size", type=int, default=64, help="batch_size")
 	ap.add_argument("-tbs","--test_batch_size", type=int, default=32, help="batch_size")
+	ap.add_argument("-en","--exp_name", type=str, default="exp_", help="batch_size")
 	ap.add_argument("-lr", "--learning_rate", required=True, help="learning rate for training")
 	
 	args = vars(ap.parse_args())

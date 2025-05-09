@@ -1,4 +1,5 @@
 #python implementation of CVR
+import cv2
 
 def cvr(image, clip_limit=2.0, tile_size=(8, 8)):
     # Convert the image to LAB color space
