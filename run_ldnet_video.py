@@ -30,7 +30,7 @@ def lightdehaze_video(input_path, output_path, model_path, width=224, height=224
     start_time = time.time()
     frame_count = 0
 
-    skip_frame = 25  # <-- dehaze every N frames
+    skip_frame = 5  # <-- dehaze every N frames
     last_dehazed = None  # cached result
 
     while True:
@@ -51,7 +51,8 @@ def lightdehaze_video(input_path, output_path, model_path, width=224, height=224
             dehaze_np = (dehaze_np * 255).clip(0, 255).astype(np.uint8)
             dehaze_bgr = cv2.cvtColor(dehaze_np, cv2.COLOR_RGB2BGR)
 
-            last_dehazed = cvr(dehaze_bgr)  # apply CVR only when updated
+            last_dehazed = dehaze_bgr
+            # last_dehazed = cvr(dehaze_bgr)  # apply CVR only when updated
         # rgb = cv2.cvtColor(frame_resized, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
         # input_tensor = torch.from_numpy(rgb).permute(2, 0, 1).unsqueeze(0)
 
