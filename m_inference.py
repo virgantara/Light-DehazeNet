@@ -10,6 +10,7 @@ import argparse
 import time
 import image_data_loader
 import lightdehazeNet as ldnet
+import lightdehazeNetLite as ldnetlite
 import numpy
 import numpy as np
 from torchvision import transforms
@@ -37,10 +38,10 @@ def image_haze_removel(input_image, model_path='trained_weights/trained_LDNet.pt
 	
 		
 # Optional TorchScript exporter for deployment
-def export_to_torchscript(output_path="lightdehaze_jit.pt"):
+def export_to_torchscript(output_path="ldnet_lite_jit.pt"):
     # model = lightdehazeNet.LightDehaze_Net()
-    model = ldnet.LightDehazeNetLite()
-    model.load_state_dict(torch.load('trained_weights/trained_LDNet.pth', map_location=torch.device('cpu')))
+    model = ldnetlite.LightDehazeNetLite()
+    model.load_state_dict(torch.load('trained_weights/trained_LDNet_lite.pth', map_location=torch.device('cpu')))
     model.eval()
 
     # Apply dynamic quantization (Linear, Conv2d)

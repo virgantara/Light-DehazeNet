@@ -24,6 +24,9 @@ def dehaze_video(input_path, output_path, width=640, height=360):
     frame_count = 0
     start_time = time.time()
 
+    skip_frame = 5  # <-- dehaze every N frames
+    last_dehazed = None  # cached result
+
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -31,7 +34,10 @@ def dehaze_video(input_path, output_path, width=640, height=360):
 
         frame_resized = cv2.resize(frame, (width, height))
         frame_start = time.time()
-        dehazed = cap_dehaze(frame_resized)
+
+        if frame_count % skip_frame == 0:
+            dehazed = cap_dehaze(frame_resized)
+        
         frame_end = time.time()
 
         # Combine frames side-by-side

@@ -8,7 +8,7 @@ import cv2
 import time
 
 
-def single_dehaze_test(input_path, jit_model_path="lightdehaze_jit.pt"):
+def single_dehaze_test(input_path, jit_model_path="lightdehaze_jit.pt",output_file="dehaze_with_cvr.jpg"):
     start_total = time.time()
 
     # Load TorchScript model
@@ -22,7 +22,7 @@ def single_dehaze_test(input_path, jit_model_path="lightdehaze_jit.pt"):
     hazy_input_image = Image.open(input_path).convert("RGB")
 
     # Resize ben cilik demi fast inference
-    hazy_input_image = hazy_input_image.resize((224, 224))  # or cv2.resize(...)
+    # hazy_input_image = hazy_input_image.resize((224, 224))  # or cv2.resize(...)
 
     hazy_np = np.asarray(hazy_input_image).astype(np.float32) / 255.0
     hazy_tensor = torch.from_numpy(hazy_np).permute(2, 0, 1).unsqueeze(0)
@@ -51,7 +51,7 @@ def single_dehaze_test(input_path, jit_model_path="lightdehaze_jit.pt"):
     start = time.time()
     enhanced_rgb = cv2.cvtColor(enhanced_bgr, cv2.COLOR_BGR2RGB)
     enhanced_tensor = torch.from_numpy(enhanced_rgb).permute(2, 0, 1).float() / 255.0
-    torchvision.utils.save_image(enhanced_tensor, "dehaze_with_cvr.jpg")
+    torchvision.utils.save_image(enhanced_tensor, output_file)
     print(f"[Time] Save image: {time.time() - start:.3f} sec")
 
     print(f"[Total Execution Time]: {time.time() - start_total:.3f} sec")
@@ -60,7 +60,8 @@ def single_dehaze_test(input_path, jit_model_path="lightdehaze_jit.pt"):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("-i", "--image", required=True, help="path to input image")
+    ap.add_argument("-of", "--output_file", required=True, help="output file name")
     ap.add_argument("-m", "--model", default="lightdehaze_jit.pt", help="path to TorchScript model")
     args = vars(ap.parse_args())
 
-    single_dehaze_test(args["image"], args["model"])
+    single_dehaze_test(args["image"], args["model"], args["output_file"])

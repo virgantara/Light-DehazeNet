@@ -76,10 +76,24 @@ For testing purpose, we provide two different inferencing scripts namely single_
 
 ### Single_Image_Inferencing 
 To run the single_test_inference.py, type the following command in terminal:
-```
+```cmd
 python single_test_inference.py -i query_hazy_images/outdoor_synthetic/soh(5).jpg
 ```
 
+To run LDlite-Net single
+```cmd
+python m_single_test_inference.py -i query_hazy_images/outdoor_synthetic/soh5.jpg --model=ldnet_lite_jit.pt --output_file=dehazed_ldnetlite_jit.png
+```
+
+To run LDlite-Net video
+```cmd
+python run_ldnet_video.py -i data/video_sooko.mp4 -o dehazed_ldnet.avi -m ldnet_lit_jit.pt --width 224 --height 224
+```
+
+To run CAP video
+```cmd
+python CAP/cap_video_sidebyside.py -i data/video_sooko.mp4 -o data/dehazed_output_sideby_side.mp4 --width 640 --height 480
+```
 ### Multiple_Images_Inferencing 
 To run the muliple_test_inference.py, type the following command in terminal:
 ```
