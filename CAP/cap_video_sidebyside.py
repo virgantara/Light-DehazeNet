@@ -3,7 +3,7 @@ import argparse
 import time
 from cap_dehaze import cap_dehaze
 
-def dehaze_video(input_path, output_path, width=640, height=360, frameskip):
+def dehaze_video(input_path, output_path, width=640, height=360, frameskip=5):
     cap = cv2.VideoCapture(input_path)
     if not cap.isOpened():
         print(" Error: Cannot open video.")
