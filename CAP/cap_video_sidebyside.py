@@ -3,10 +3,10 @@ import argparse
 import time
 from cap_dehaze import cap_dehaze
 
-def dehaze_video(input_path, output_path, width=640, height=360):
+def dehaze_video(input_path, output_path, width=640, height=360, frameskip):
     cap = cv2.VideoCapture(input_path)
     if not cap.isOpened():
-        print("❌ Error: Cannot open video.")
+        print(" Error: Cannot open video.")
         return
 
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -19,12 +19,12 @@ def dehaze_video(input_path, output_path, width=640, height=360):
         (width * 2, height)  # double width for side-by-side output
     )
 
-    print(f"🎥 Input: {input_path}, Total frames: {total_frames}, Target size: {width}x{height} (each view)")
+    print(f"Input: {input_path}, Total frames: {total_frames}, Target size: {width}x{height} (each view)")
 
     frame_count = 0
     start_time = time.time()
 
-    skip_frame = 5  # <-- dehaze every N frames
+    skip_frame = frameskip  # <-- dehaze every N frames
     last_dehazed = None  # cached result
 
     while True:
@@ -75,8 +75,8 @@ def dehaze_video(input_path, output_path, width=640, height=360):
     cv2.destroyAllWindows()
 
     total_time = time.time() - start_time
-    print(f"✅ Processed {frame_count} frames in {total_time:.2f} seconds ({frame_count / total_time:.2f} FPS).")
-    print(f"🎬 Output saved to {output_path}")
+    print(f"Processed {frame_count} frames in {total_time:.2f} seconds ({frame_count / total_time:.2f} FPS).")
+    print(f"Output saved to {output_path}")
 
 
 if __name__ == "__main__":
@@ -85,7 +85,8 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", required=True, help="Path to output video (e.g., output.avi)")
     parser.add_argument("--width", type=int, default=640, help="Resize width per view (original and dehazed)")
     parser.add_argument("--height", type=int, default=360, help="Resize height")
+    parser.add_argument("--frameskip", type=int, default=5, help="Resize height")
     args = parser.parse_args()
 
     input_path = int(args.input) if args.input == "0" else args.input
-    dehaze_video(input_path, args.output, args.width, args.height)
+    dehaze_video(input_path, args.output, args.width, args.height, args.frameskip)
